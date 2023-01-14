@@ -102,11 +102,3 @@ export default function App() {
 // >> rubah kerangka array menjadi [{title, list}, {title, list}]
 // button tambah group rubah menjadi input untuk nambah group dengan title nya
 // title nya diambil dari value input
-
-// Tugas
-// 1. buat ilustrasi array dalam array
-//    const arr1 = [
-//    ["arr2", "arr2", "arr2"],
-//    ["arr2", "arr2", "arr2"],
-//    ["arr2", "arr2", "arr2"],
-//    ]
