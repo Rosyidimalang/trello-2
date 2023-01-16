@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 // const nestedArray = [
 //   { title: "pagi", list: ["test", "test", "test"] },
@@ -42,73 +43,77 @@ export default function Tugas() {
   const updateTitle = (e, idxGroup) => {
     newGroup[idxGroup].title = e.target.value;
     setGroup(newGroup);
-    e.target.value = "";
   };
-  console.log("updateTitle", updateTitle);
-
-  const enterTitle = (e, idxGroup) => {
-    if (e.key === "Enter") {
-      newGroup[idxGroup].title = e.target.value;
-      setGroup(newGroup);
-      e.target.value = "";
-    }
-  };
-  console.log("enterTitle", enterTitle);
 
   const updateItem = (e, idxGroup, idxItem) => {
     newGroup[idxGroup].list[idxItem] = e.target.value;
     setGroup(newGroup);
-    e.target.value = "";
-  };
-
-  const enterItem = (e, idxGroup, idxItem) => {
-    if (e.key === "Enter") {
-      newGroup[idxGroup].list[idxItem] = e.target.value;
-      setGroup(newGroup);
-      e.target.value = "";
-    }
   };
 
   return (
     <div>
       <div className="border h-2 w-full bg-orange-600"></div>
-      <div className="flex gap-5">
-        {group.map((item, idx) => (
-          <div className="border border-blue-600 p-3">
-            <input
-              value={item.title}
-              onChange={(e) => updateTitle(e, idx)}
-              onKeyDown={(e) => enterTitle(e, idx)}
-              className="text-2xl font-bold text-center"
-            />
-            <button onClick={() => dellGroup(idx)}>Del Group</button>
-            <div>
-              {item.list.map((item2, idx2) => (
-                <div className="flex justify-between">
-                  <input
-                    value={item2}
-                    onChange={(e) => updateItem(e, idx, idx2)}
-                    onKeyDown={(e) => {
-                      enterItem(e, idx, idx2);
-                    }}
-                  />
-                  <button onClick={() => delItem(idx, idx2)}>dell Item</button>
-                </div>
-              ))}
+      <DragDropContext>
+        <div className="flex gap-5">
+          {group.map((item, idx) => (
+            <div className="border border-blue-600 p-3">
               <input
-                onKeyDown={(e) => addItem(e, idx)}
-                placeholder="add new Item"
-                className="border border-blue-600"
+                value={item.title}
+                onChange={(e) => updateTitle(e, idx)}
+                // onKeyDown={(e) => enterTitle(e, idx)}
+                className="text-2xl font-bold text-center"
               />
+              <button onClick={() => dellGroup(idx)}>Del Group</button>
+              <div>
+                <Droppable droppableId={`group ${idx}`}>
+                  {(provided) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      className="bg-red-400 space-y-7 p-5"
+                    >
+                      {item.list.map((item2, idx2) => (
+                        <Draggable
+                          key={`item ${idx2}`}
+                          index={idx2}
+                          draggableId={`item ${idx2}`}
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className="bg-yellow-400 p-5  flex justify-between"
+                            >
+                              <input
+                                value={item2}
+                                onChange={(e) => updateItem(e, idx, idx2)}
+                              />
+                              <button onClick={() => delItem(idx, idx2)}>
+                                dell Item
+                              </button>
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                    </div>
+                  )}
+                </Droppable>
+                <input
+                  onKeyDown={(e) => addItem(e, idx)}
+                  placeholder="add new Item"
+                  className="border border-blue-600"
+                />
+              </div>
             </div>
-          </div>
-        ))}
-        <input
-          onKeyDown={addGroup}
-          placeholder="add new Group"
-          className="border border-blue-600 h-[3rem] w-[20rem]"
-        />
-      </div>
+          ))}
+          <input
+            onKeyDown={addGroup}
+            placeholder="add new Group"
+            className="border border-blue-600 h-[3rem] w-[20rem]"
+          />
+        </div>
+      </DragDropContext>
     </div>
   );
 }
