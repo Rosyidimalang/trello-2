@@ -5,7 +5,7 @@ import React, { useState } from "react";
 //   { title: "pagi", list: ["test", "test", "test"] },
 //   { title: "pagi", list: ["test", "test", "test"] },
 //   { title: "pagi", list: ["test", "test", "test"] },
-//    ]
+// ];
 
 export default function Tugas() {
   const [group, setGroup] = useState([]);
@@ -20,28 +20,93 @@ export default function Tugas() {
     }
   };
 
-  const deleteGroup = (idx) => {
+  const dellGroup = (idx) => {
     newGroup.splice(idx, 1);
     setGroup(newGroup);
+  };
+
+  const addItem = (e, idxGroup) => {
+    if (e.key === "Enter") {
+      newGroup[idxGroup].list.push(e.target.value);
+      setGroup(newGroup);
+      e.target.value = "";
+    }
+    console.log("addItem", addItem);
+  };
+
+  const delItem = (idxGroup, idxItem) => {
+    newGroup[idxGroup].list.splice(idxItem, 1);
+    setGroup(newGroup);
+  };
+
+  const updateTitle = (e, idxGroup) => {
+    newGroup[idxGroup].title = e.target.value;
+    setGroup(newGroup);
+    e.target.value = "";
+  };
+  console.log("updateTitle", updateTitle);
+
+  const enterTitle = (e, idxGroup) => {
+    if (e.key === "Enter") {
+      newGroup[idxGroup].title = e.target.value;
+      setGroup(newGroup);
+      e.target.value = "";
+    }
+  };
+  console.log("enterTitle", enterTitle);
+
+  const updateItem = (e, idxGroup, idxItem) => {
+    newGroup[idxGroup].list[idxItem] = e.target.value;
+    setGroup(newGroup);
+    e.target.value = "";
+  };
+
+  const enterItem = (e, idxGroup, idxItem) => {
+    if (e.key === "Enter") {
+      newGroup[idxGroup].list[idxItem] = e.target.value;
+      setGroup(newGroup);
+      e.target.value = "";
+    }
   };
 
   return (
     <div>
       <div className="border h-2 w-full bg-orange-600"></div>
-      <div className="flex gap-4">
+      <div className="flex gap-5">
         {group.map((item, idx) => (
-          <div
-            id="group"
-            className="w-[25rem] h-[10rem] border border-yellow-400 p-5"
-          >
-            <button onClick={deleteGroup}>Delete Group</button>
-            <div className="text-4xl">{item.title} </div>
+          <div className="border border-blue-600 p-3">
+            <input
+              value={item.title}
+              onChange={(e) => updateTitle(e, idx)}
+              onKeyDown={(e) => enterTitle(e, idx)}
+              className="text-2xl font-bold text-center"
+            />
+            <button onClick={() => dellGroup(idx)}>Del Group</button>
+            <div>
+              {item.list.map((item2, idx2) => (
+                <div className="flex justify-between">
+                  <input
+                    value={item2}
+                    onChange={(e) => updateItem(e, idx, idx2)}
+                    onKeyDown={(e) => {
+                      enterItem(e, idx, idx2);
+                    }}
+                  />
+                  <button onClick={() => delItem(idx, idx2)}>dell Item</button>
+                </div>
+              ))}
+              <input
+                onKeyDown={(e) => addItem(e, idx)}
+                placeholder="add new Item"
+                className="border border-blue-600"
+              />
+            </div>
           </div>
         ))}
         <input
           onKeyDown={addGroup}
-          placeholder="add new group"
-          className="border border-teal-300 h-10"
+          placeholder="add new Group"
+          className="border border-blue-600 h-[3rem] w-[20rem]"
         />
       </div>
     </div>
