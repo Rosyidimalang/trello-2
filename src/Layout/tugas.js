@@ -8,6 +8,19 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 //   { title: "pagi", list: ["test", "test", "test"] },
 // ];
 
+function moveItemTrello(
+  arr,
+  [idxGroupFrom, idxItemFrom],
+  [idxGroupTo, idxItemTo]
+) {
+  var sourceArr = arr[idxGroupFrom].list;
+  var targetArr = arr[idxGroupTo].list;
+  // remove the item at the source index from the original array
+  var removedItem = sourceArr.splice(idxItemFrom, 1)[0];
+  // add the removed item to the target index
+  targetArr.splice(idxItemTo, 0, removedItem);
+}
+
 export default function Tugas() {
   const [group, setGroup] = useState([]);
 
@@ -32,7 +45,6 @@ export default function Tugas() {
       setGroup(newGroup);
       e.target.value = "";
     }
-    console.log("addItem", addItem);
   };
 
   const delItem = (idxGroup, idxItem) => {
@@ -50,13 +62,32 @@ export default function Tugas() {
     setGroup(newGroup);
   };
 
+  const handleDragEnd = ({ source: s, destination: d }) => {
+    console.log("s", s);
+    console.log("d", d);
+    const idxGroupFrom = parseInt(s.droppableId.slice(5));
+    const idxGroupTo = parseInt(d.droppableId.slice(5));
+    moveItemTrello(newGroup, [idxGroupFrom, s.index], [idxGroupTo, d.index]);
+    setGroup(newGroup);
+
+    // newGroup[idxGroupFrom].list.splice(s.index, 1);
+    // newGroup[idxGroupFrom].list.splice(
+    //   d.index,
+    //   0,
+    //   group[idxGroupFrom].list[s.index]
+    // );
+    // setGroup(newGroup);
+  };
+  const handleDragStart = (e) => {
+    // console.log("start", e);
+  };
+
   return (
     <div>
-      <div className="border h-2 w-full bg-orange-600"></div>
-      <DragDropContext>
+      <DragDropContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
         <div className="flex gap-5">
           {group.map((item, idx) => (
-            <div className="border border-blue-600 p-3">
+            <div key={idx} className="border border-blue-600 p-3">
               <input
                 value={item.title}
                 onChange={(e) => updateTitle(e, idx)}
@@ -65,7 +96,7 @@ export default function Tugas() {
               />
               <button onClick={() => dellGroup(idx)}>Del Group</button>
               <div>
-                <Droppable droppableId={`group ${idx}`}>
+                <Droppable key={idx} index={idx} droppableId={`group ${idx}`}>
                   {(provided) => (
                     <div
                       {...provided.droppableProps}
@@ -74,9 +105,9 @@ export default function Tugas() {
                     >
                       {item.list.map((item2, idx2) => (
                         <Draggable
-                          key={`item ${idx2}`}
+                          key={`item ${idx} ${idx2}`}
                           index={idx2}
-                          draggableId={`item ${idx2}`}
+                          draggableId={`item ${idx} ${idx2}`}
                         >
                           {(provided) => (
                             <div
