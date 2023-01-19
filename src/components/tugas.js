@@ -99,7 +99,7 @@ export default function Tugas() {
                 value={item.title}
                 onChange={(e) => updateTitle(e, idx)}
                 // onKeyDown={(e) => enterTitle(e, idx)}
-                className="text-[1.8rem] font-bold text-center bg-white mt-5 py-2 "
+                className="text-xl md:text-[1.8rem] font-bold text-center bg-white mt-5 py-2 w-full"
               />
               <Disclosure>
                 {({ open }) => (
@@ -150,7 +150,7 @@ export default function Tugas() {
                                             e.key === "Enter" &&
                                             e.currentTarget.blur()
                                           }
-                                          className="grow focus:bg-white shadow shadow-blue-200 bg-blue-200 pl-3 py-2 w-[12rem] rounded-full"
+                                          className="grow focus:bg-white shadow shadow-blue-200 bg-blue-200 pl-3 md:py-2 w-[12rem] rounded-full"
                                         />
                                         <button
                                           className="text-[17px]"
@@ -170,13 +170,19 @@ export default function Tugas() {
                           <input
                             onKeyDown={(e) => addItem(e, idx)}
                             placeholder="add new Item"
-                            className="shadow shadow-yellow-200 bg-yellow-200 grow focus:bg-white pl-3 py-2 w-[12rem] rounded-full "
+                            className="shadow shadow-yellow-200 bg-yellow-200 grow focus:bg-white pl-3 md:py-2 w-[12rem] rounded-full "
                           />
                           <button
                             onClick={() => dellGroup(idx)}
-                            className="font-semibold"
+                            className="font-semibold md:hidden"
                           >
-                            Delete Group
+                            <FaTrash />
+                          </button>
+                          <button
+                            onClick={() => dellGroup(idx)}
+                            className="hidden md:block font-semibold"
+                          >
+                            <span>Delete Group</span>
                           </button>
                         </div>
                       </div>
