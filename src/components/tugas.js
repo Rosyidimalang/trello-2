@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FaTrash } from "react-icons/fa";
 import DraggableIcon from "./global/draggableIcon";
@@ -14,7 +14,13 @@ import { ChevronUpIcon } from "@heroicons/react/20/solid";
 // ];
 
 export default function Tugas() {
-  const [group, setGroup] = useState([]);
+  const [group, setGroup] = useState(
+    JSON.parse(localStorage.getItem("Group")) || []
+  );
+
+  useEffect(() => {
+    localStorage.setItem("Group", JSON.stringify(group));
+  }, [group]);
 
   const newGroup = [...group];
 
@@ -82,28 +88,31 @@ export default function Tugas() {
   return (
     <div className="bg-gray-300 min-h-screen">
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="px-5 py-3 bg-[#cef5c7] max-w-[40rem] mx-auto space-y-7 ">
+        <div className="px-5 py-7 bg-[#cef5c7] max-w-[40rem] mx-auto space-y-7 ">
           {group.map((item, idx) => (
-            <div key={idx} className="border-2 border-blue-600 p-4 bg-gray-300">
+            <div
+              key={idx}
+              className="border-2 border-blue-600 p-4 bg-gray-300 "
+            >
+              <input
+                onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
+                value={item.title}
+                onChange={(e) => updateTitle(e, idx)}
+                // onKeyDown={(e) => enterTitle(e, idx)}
+                className="text-[1.8rem] font-bold text-center bg-white mt-5 py-2 "
+              />
               <Disclosure>
                 {({ open }) => (
                   <>
-                    <Disclosure.Button className="flex justify-between">
-                      <input
-                        onKeyDown={(e) =>
-                          e.key === "Enter" && e.currentTarget.blur()
-                        }
-                        value={item.title}
-                        onChange={(e) => updateTitle(e, idx)}
-                        // onKeyDown={(e) => enterTitle(e, idx)}
-                        className="text-[1.8rem] font-bold text-center bg-white mt-5 py-2 "
-                      />
-                      <ChevronUpIcon
-                        className={`${
-                          open ? "rotate-180 transform" : ""
-                        } h-5 w-5 text-purple-500`}
-                      />
-                    </Disclosure.Button>
+                    <div className="flex justify-center">
+                      <Disclosure.Button>
+                        <ChevronUpIcon
+                          className={`${
+                            open ? "rotate-180 transform" : ""
+                          } h-9 w-9 text-purple-600`}
+                        />
+                      </Disclosure.Button>
+                    </div>
                     <Disclosure.Panel>
                       <div>
                         <Droppable
