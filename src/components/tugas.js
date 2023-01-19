@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { FaTrash } from "react-icons/fa";
+import DraggableIcon from "./global/draggableIcon";
+import { moveItemTrello } from "../utils";
+import { Disclosure } from "@headlessui/react";
+import { ChevronUpIcon } from "@heroicons/react/20/solid";
 
 // const nestedArray = [
 //   { title: "pagi", list: ["test", "test", "test"] },
@@ -7,19 +12,6 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 //   { title: "pagi", list: ["test", "test", "test"] },
 //   { title: "pagi", list: ["test", "test", "test"] },
 // ];
-
-function moveItemTrello(
-  arr,
-  [idxGroupFrom, idxItemFrom],
-  [idxGroupTo, idxItemTo]
-) {
-  var sourceArr = arr[idxGroupFrom].list;
-  var targetArr = arr[idxGroupTo].list;
-  // remove the item at the source index from the original array
-  var removedItem = sourceArr.splice(idxItemFrom, 1)[0];
-  // add the removed item to the target index
-  targetArr.splice(idxItemTo, 0, removedItem);
-}
 
 export default function Tugas() {
   const [group, setGroup] = useState([]);
@@ -88,68 +80,112 @@ export default function Tugas() {
   // Secara keseluruhan, fungsi handleDragEnd ini digunakan untuk mengupdate state aplikasi ketika sebuah item berhasil di-drag dan drop, dengan mengubah posisi item di dalam grup yang berbeda.
 
   return (
-    <div>
+    <div className="bg-gray-300 min-h-screen">
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="flex gap-5">
+        <div className="px-5 py-3 bg-[#cef5c7] max-w-[40rem] mx-auto space-y-7 ">
           {group.map((item, idx) => (
-            <div key={idx} className="border border-blue-600 p-3">
-              <input
-                value={item.title}
-                onChange={(e) => updateTitle(e, idx)}
-                // onKeyDown={(e) => enterTitle(e, idx)}
-                className="text-2xl font-bold text-center"
-              />
-              <button onClick={() => dellGroup(idx)}>Del Group</button>
-              <div>
-                <Droppable key={idx} index={idx} droppableId={`group ${idx}`}>
-                  {(provided) => (
-                    <div
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      className="bg-red-400 space-y-7 p-5"
-                    >
-                      {item.list.map((item2, idx2) => (
-                        <Draggable
-                          key={`item ${idx} ${idx2}`}
-                          index={idx2}
-                          draggableId={`item ${idx} ${idx2}`}
+            <div key={idx} className="border-2 border-blue-600 p-4 bg-gray-300">
+              <Disclosure>
+                {({ open }) => (
+                  <>
+                    <Disclosure.Button className="flex justify-between">
+                      <input
+                        onKeyDown={(e) =>
+                          e.key === "Enter" && e.currentTarget.blur()
+                        }
+                        value={item.title}
+                        onChange={(e) => updateTitle(e, idx)}
+                        // onKeyDown={(e) => enterTitle(e, idx)}
+                        className="text-[1.8rem] font-bold text-center bg-white mt-5 py-2 "
+                      />
+                      <ChevronUpIcon
+                        className={`${
+                          open ? "rotate-180 transform" : ""
+                        } h-5 w-5 text-purple-500`}
+                      />
+                    </Disclosure.Button>
+                    <Disclosure.Panel>
+                      <div>
+                        <Droppable
+                          key={idx}
+                          index={idx}
+                          droppableId={`group ${idx}`}
                         >
                           {(provided) => (
                             <div
+                              {...provided.droppableProps}
                               ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className="bg-yellow-400 p-5  flex justify-between"
+                              className="bg-gray-300 space-y-3 py-7"
                             >
-                              <input
-                                value={item2}
-                                onChange={(e) => updateItem(e, idx, idx2)}
-                              />
-                              <button onClick={() => delItem(idx, idx2)}>
-                                dell Item
-                              </button>
+                              {item.list.map((item2, idx2) => (
+                                <Draggable
+                                  key={`item ${idx} ${idx2}`}
+                                  index={idx2}
+                                  draggableId={`item ${idx} ${idx2}`}
+                                >
+                                  {(provided) => (
+                                    <div
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                      className="bg-blue-200 rounded-full"
+                                    >
+                                      <div className="flex gap-3 px-6 py-3 ">
+                                        <DraggableIcon />
+                                        <input
+                                          value={item2}
+                                          onChange={(e) =>
+                                            updateItem(e, idx, idx2)
+                                          }
+                                          onKeyDown={(e) =>
+                                            e.key === "Enter" &&
+                                            e.currentTarget.blur()
+                                          }
+                                          className="grow focus:bg-white shadow shadow-blue-200 bg-blue-200 pl-3 py-2 w-[12rem] rounded-full"
+                                        />
+                                        <button
+                                          className="text-[17px]"
+                                          onClick={() => delItem(idx, idx2)}
+                                        >
+                                          <FaTrash />
+                                        </button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </Draggable>
+                              ))}
                             </div>
                           )}
-                        </Draggable>
-                      ))}
-                    </div>
-                  )}
-                </Droppable>
-                <input
-                  onKeyDown={(e) => addItem(e, idx)}
-                  placeholder="add new Item"
-                  className="border border-blue-600"
-                />
-              </div>
+                        </Droppable>
+                        <div className="flex gap-3 justify-between px-6 py-3 shadow bg-yellow-200 rounded-full">
+                          <input
+                            onKeyDown={(e) => addItem(e, idx)}
+                            placeholder="add new Item"
+                            className="shadow shadow-yellow-200 bg-yellow-200 grow focus:bg-white pl-3 py-2 w-[12rem] rounded-full "
+                          />
+                          <button
+                            onClick={() => dellGroup(idx)}
+                            className="font-semibold"
+                          >
+                            Delete Group
+                          </button>
+                        </div>
+                      </div>
+                    </Disclosure.Panel>
+                  </>
+                )}
+              </Disclosure>
             </div>
           ))}
-          <input
-            onKeyDown={addGroup}
-            placeholder="add new Group"
-            className="border border-blue-600 h-[3rem] w-[20rem]"
-          />
         </div>
       </DragDropContext>
+      <div className="bg-gray-300 min-h-[15vh] flex justify-center mt-7">
+        <input
+          onKeyDown={addGroup}
+          placeholder="Add New Group"
+          className="border border-blue-600 h-[3rem] w-[40rem] px-5"
+        />
+      </div>
     </div>
   );
 }
