@@ -208,16 +208,17 @@ export default function Tugas() {
           </div>
         </DragDropContext>
         {/* <div className="bg-gray-300 min-h-[15vh] flex justify-center mt-7"> */}
-        <div className="">
-          <input className="w-full" />
-          <button>del</button>
-        </div>
+
         <input
           type="text"
           onKeyDown={addGroup}
           placeholder="Add New Todo GROUP"
           className="border border-[#f47631] bg-transparent text-white h-[3rem] w-full px-5 mt-16"
         />
+        <div className="">
+          <input className="w-full" />
+          <button>del</button>
+        </div>
 
         {/* </div> */}
       </div>
