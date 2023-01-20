@@ -77,19 +77,6 @@ export default function Tugas() {
     // setGroup(newGroup);
   };
 
-  // export function moveItemTrello(
-  //   arr,
-  //   [idxGroupFrom, idxItemFrom],
-  //   [idxGroupTo, idxItemTo]
-  // ) {
-  //   var sourceArr = arr[idxGroupFrom].list;
-  //   var targetArr = arr[idxGroupTo].list;
-  //   // remove the item at the source index from the original array
-  //   var removedItem = sourceArr.splice(idxItemFrom, 1)[0];
-  //   // add the removed item to the target index
-  //   targetArr.splice(idxItemTo, 0, removedItem);
-  // }
-
   // Chat GBT :
   //   Fungsi handleDragEnd adalah fungsi yang digunakan untuk menangani event drag and drop yang terjadi pada component <DragDropContext>. Fungsi ini akan dijalankan setiap kali sebuah item selesai di-drag dan drop.
 
@@ -244,7 +231,6 @@ export default function Tugas() {
 //    .Simpan perubahan dalam state menggunakan setstate
 
 // 6. >> Buat button delete Group untuk menghapus group dalam state, kasih onCllick isinya function deleteGroup
-
 //    >> Buat funcion deleteGroup yang akan digunakan untuk menghapus group dalam state, isinya:
 //    .Kasih parameter idx, utk menentukan idx yg dihapus
 //    .Untuk menghapus  gunakan splice method
@@ -262,16 +248,16 @@ export default function Tugas() {
 //    . Jika event.key sama dengan "Enter", maka push valuenya (e.target.value) ke dalam list dari group berdasarkan index yang dikirim. caranya adalah : newGroup[groupIdx].list.push(e.target.value)
 //    . Simpan perubahan dalam state menggunakan setstate
 
-// 10. >> Buat button del item, kasih onClick yang isinya function delitem:
-//    >>Buat funcion dell item yang akan digunakan untuk mrnghapus item yang ada di dalam group, yg isinya:
-//    . Kasih 2 parameter. Parameter pertama adalah idxGroup, paremeter ke dua adalah idxItem
-//    . di group[idxGroup].list Gunakan splice method untuk menghapus index per Item, jadinya group[idxGroup].list.splice(idxItem, 1)
-//    . Simpan perubahan dalam state menggunakan setstate
+// 10. >> Buat button del item, kasih onClick yang isinya function delitem.
+//     >> Buat funcion dell item yang akan digunakan untuk mrnghapus item yang ada di dalam group, yg isinya:
+//     . Kasih 2 parameter. Parameter pertama adalah idxGroup, paremeter ke dua adalah idxItem
+//     . di group[idxGroup].list Gunakan splice method untuk menghapus index per Item, jadinya group[idxGroup].list.splice(idxItem, 1)
+//     . Simpan perubahan dalam state menggunakan setstate
 
 // #MOVE ARRAY
 
 // 11. Install React beautiful dnd. Componen yang disediakan oleh Reat beautiful dnd antara lain : <DragDropContext> , <Droppable>, dan <Draggable>
-// 12. Bungkus area yang akan dilakukan drag and drop di sana menggunakan componen <DragDropContext>. Dalam componen <DragDropContext>, kasih onDragEnd yang menerima funcion handleDragEnd. Funcion tersebut akan menghandle event drag and drop yang terjadi pada component <DragDropContext>. Fungsi ini akan dijalankan setiap kali sebuah item selesai di-drag dan drop.
+// 12. Bungkus area yang akan dilakukan drag and drop menggunakan componen <DragDropContext>. Dalam componen <DragDropContext>, kasih onDragEnd yang menerima funcion handleDragEnd. Funcion tersebut akan menghandle event drag and drop yang terjadi pada component <DragDropContext>. Fungsi ini akan dijalankan setiap kali sebuah item selesai di-drag dan drop.
 // 13. Buat funcion handleDragEnd yang isinya :
 //     >> kasih parameter source (asal) dan destination(tujuan)
 //     >> source dan destination merupakan sebuah object, yang mempunyai 2 key, yaitu: droppableId dan index. value droppableId berupa string dan value index berupa number

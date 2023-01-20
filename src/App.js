@@ -8,7 +8,7 @@ export default function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/tugas" element={<Tugas />} />
+          <Route index path="/" element={<Tugas />} />
           <Route path="/contoh" element={<Contoh />} />
         </Routes>
       </BrowserRouter>
