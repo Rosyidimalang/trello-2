@@ -208,7 +208,7 @@ export default function Tugas() {
           </div>
         </DragDropContext>
         {/* <div className="bg-gray-300 min-h-[15vh] flex justify-center mt-7"> */}
-        <div className="flex gap-5">
+        <div className="">
           <input />
           <button>del</button>
         </div>
