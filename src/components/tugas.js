@@ -25,7 +25,7 @@ export default function Tugas() {
   const newGroup = [...group];
 
   const addGroup = (e) => {
-    if (e.key === "Enter" || e.key === "Tab") {
+    if (e.key === "Enter") {
       newGroup.push({ title: e.target.value, list: [] });
       setGroup(newGroup);
       e.target.value = "";
@@ -38,7 +38,8 @@ export default function Tugas() {
   };
 
   const addItem = (e, idxGroup) => {
-    if (e.key === "Enter" || e.key === "Tab") {
+    console.log("e", e.key);
+    if (e.key === "Enter") {
       newGroup[idxGroup].list.push(e.target.value);
       setGroup(newGroup);
       e.target.value = "";
@@ -101,6 +102,7 @@ export default function Tugas() {
                     <>
                       <div className="flex items-center gap-3">
                         <input
+                          type="text"
                           onKeyDown={(e) =>
                             e.key === "Enter" && e.currentTarget.blur()
                           }
@@ -150,6 +152,7 @@ export default function Tugas() {
                                         <div className="flex gap-3 px-3 md:px-6 py-3 bg-black rounded-full">
                                           <DraggableIcon />
                                           <input
+                                            type="text"
                                             value={item2}
                                             placeholder="type the name of item"
                                             onChange={(e) =>
@@ -177,6 +180,7 @@ export default function Tugas() {
                           </Droppable>
                           <div className="flex gap-3 justify-between px-6 py-3  rounded-full">
                             <input
+                              type="text"
                               onKeyDown={(e) => addItem(e, idx)}
                               placeholder="add new todo Item"
                               className=" grow border border-white text-white bg-transparent pl-3 md:py-2  rounded-full "
@@ -205,6 +209,7 @@ export default function Tugas() {
         </DragDropContext>
         {/* <div className="bg-gray-300 min-h-[15vh] flex justify-center mt-7"> */}
         <input
+          type="text"
           onKeyDown={addGroup}
           placeholder="Add New Todo GROUP"
           className="border border-[#f47631] bg-transparent text-white h-[3rem] w-full px-5 mt-16"
