@@ -76,6 +76,20 @@ export default function Tugas() {
     // );
     // setGroup(newGroup);
   };
+
+  // export function moveItemTrello(
+  //   arr,
+  //   [idxGroupFrom, idxItemFrom],
+  //   [idxGroupTo, idxItemTo]
+  // ) {
+  //   var sourceArr = arr[idxGroupFrom].list;
+  //   var targetArr = arr[idxGroupTo].list;
+  //   // remove the item at the source index from the original array
+  //   var removedItem = sourceArr.splice(idxItemFrom, 1)[0];
+  //   // add the removed item to the target index
+  //   targetArr.splice(idxItemTo, 0, removedItem);
+  // }
+
   // Chat GBT :
   //   Fungsi handleDragEnd adalah fungsi yang digunakan untuk menangani event drag and drop yang terjadi pada component <DragDropContext>. Fungsi ini akan dijalankan setiap kali sebuah item selesai di-drag dan drop.
 
@@ -262,13 +276,24 @@ export default function Tugas() {
 //     >> kasih parameter source (asal) dan destination(tujuan)
 //     >> source dan destination merupakan sebuah object, yang mempunyai 2 key, yaitu: droppableId dan index. value droppableId berupa string dan value index berupa number
 //     >> karena data yang dibutuhkan adalah number, maka value droppableId harus dirubah menjadi number, caranya dengan menggunakan slice() method, kemudian diparseInt
-//     >> masukkan newGroup, source.droppableId + source.index, dan destination.droppableId + destination.index dalam funcion moveItemTrello
+
+// 14. Buat funcion moveItemTrello yang isinya :
+//     >> kasih parameter arr, [idxGroupFrom, idxItemFrom], [idxGroupTo, idxItemTo].
+//        - arr adalah array yang berisi beberapa grup dan item yang ingin dipindahkan.
+//        - [idxGroupFrom, idxItemFrom] adalah array yang berisi indeks grup dan indeks item yang ingin dipindahkan dari.
+//        - [idxGroupTo, idxItemTo] adalah array yang berisi indeks grup dan indeks item yang ingin dipindahkan ke.
+//     >> Buat variabel sourceArr yang isinya list dari grup yang berisi item yang ingin dipindahkan, yaitu : arr[idxGroupFrom].list;
+//     >> Buat variabel targetArr yang isinya  list dari grup yang ingin menerima item yang dipindahkan, yaitu : arr[idxGroupTo].list;
+//     >> Buat variabel removedItem untuk menghapus item yang ingin dipindahkan dari sourceArr dengan menggunakan splice method
+//     >> Item yang sudah dihapus tersebut ditambahkan ke targetArr dengan menggunakan splice method juga.
+
+// 16. masukkan newGroup, source.droppableId + source.index, dan destination.droppableId + destination.index dalam funcion moveItemTrello
 //     >> [source.droppableId, source.index] artinya: "dari Group sesuai indexnya dan Item sesuai indexnya"
 //     >> [destination.droppableId, destination.index] artinya: "destinasi sesuai idxGroup dan sesuai idxItem
 //     >> simpan perubahan dalam state menggunakan setstate
-// 14. Gunakan componen <Droppable> dalam group. Dalam componen <Droppable>, kasih droppableId yang isinya {`group ${idx}`} ; yaitu grub berdasarkan indexnhya
-// 15. Bungkus componen <div> yang ada di dalam <Droppable> menggunakan funcion dengan paramteter (provided). Funcion ini merupakan bawaan dari react beautiful dnd
-// 16. Dalam componen <div> yang dibungkus dengan funcion provided, kasih {...provided.droppableProps} ref={provided.innerRef}
-// 17. Bungkus Item yang akan didrag and drop dengan componen <Draggable>. Dalam componen <Draggable>, kasih key={`item ${idx} ${idx2}`} index={idx2} draggableId={`item ${idx} ${idx2}`}
-// 18. Bungkus componen <div> yang ada di dalam <Draggable> menggunakan funcion dengan paramteter (provided).
-// 19. Dalam componen <div> yang dibungkus dengan funcion provided, kasih ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
+// 17. Gunakan componen <Droppable> dalam group. Dalam componen <Droppable>, kasih droppableId yang isinya {`group ${idx}`} ; yaitu grub berdasarkan indexnhya
+// 18. Bungkus componen <div> yang ada di dalam <Droppable> menggunakan funcion dengan paramteter (provided). Funcion ini merupakan bawaan dari react beautiful dnd
+// 19. Dalam componen <div> yang dibungkus dengan funcion provided, kasih {...provided.droppableProps} ref={provided.innerRef}
+// 20. Bungkus Item yang akan didrag and drop dengan componen <Draggable>. Dalam componen <Draggable>, kasih key={`item ${idx} ${idx2}`} index={idx2} draggableId={`item ${idx} ${idx2}`}
+// 21. Bungkus componen <div> yang ada di dalam <Draggable> menggunakan funcion dengan paramteter (provided).
+// 22. Dalam componen <div> yang dibungkus dengan funcion provided, kasih ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
