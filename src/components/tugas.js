@@ -188,31 +188,33 @@ export default function Tugas() {
                               </div>
                             )}
                           </Droppable>
-                          <div className="flex gap-3 justify-between px-6 py-3  rounded-full">
-                            <input
-                              type="text"
-                              onKeyDown={(e) => addItem(e, idx)}
-                              onChange={(e) => {
-                                setItemInput({
-                                  idx: idx,
-                                  value: e.target.value,
-                                });
-                              }}
-                              value={
-                                itemInput.idx === idx ? itemInput.value : ""
-                              }
-                              // onFocus={() => console.log("focus", idx)}
-                              // onBlur={() => console.log("blur", idx)}
-                              // value={e.target.index === idx ? itemInput : ""}
-                              placeholder="add new todo Item"
-                              className=" grow md:border border-white focus:outline-none  text-white bg-transparent pl-3 md:py-2  rounded-full "
-                            />
-                            <button
-                              className="text-white md:hidden"
-                              onClick={() => addItemWhenMobile(idx)}
-                            >
-                              save
-                            </button>
+                          <div className="border border-white rounded-xl">
+                            <div className="flex gap-3 justify-between px-6 py-3  rounded-full">
+                              <input
+                                type="text"
+                                onKeyDown={(e) => addItem(e, idx)}
+                                onChange={(e) => {
+                                  setItemInput({
+                                    idx: idx,
+                                    value: e.target.value,
+                                  });
+                                }}
+                                value={
+                                  itemInput.idx === idx ? itemInput.value : ""
+                                }
+                                // onFocus={() => console.log("focus", idx)}
+                                // onBlur={() => console.log("blur", idx)}
+                                // value={e.target.index === idx ? itemInput : ""}
+                                placeholder="add new todo Item"
+                                className=" grow md:border border-white focus:outline-none  text-white bg-transparent pl-3 md:py-2  rounded-full "
+                              />
+                              <button
+                                className="text-white md:hidden"
+                                onClick={() => addItemWhenMobile(idx)}
+                              >
+                                save
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </Disclosure.Panel>
@@ -227,7 +229,7 @@ export default function Tugas() {
           type="text"
           onKeyDown={addGroup}
           placeholder="Add New Todo GROUP"
-          className="border border-[#f47631] bg-transparent text-white h-[3rem] w-full px-5 mt-16"
+          className="border border-[#f47631] bg-transparent text-white h-[3rem] w-full px-5 mt-16 rounded-xl"
         />
       </div>
     </div>
