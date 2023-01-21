@@ -4,7 +4,7 @@ import { FaChevronDown, FaTrash } from "react-icons/fa";
 import DraggableIcon from "./global/draggableIcon";
 import { moveItemTrello } from "../utils";
 import { Disclosure } from "@headlessui/react";
-// import { ChevronUpIcon } from "@heroicons/react/20/solid";
+import { TiDeleteOutline } from "react-icons/ti";
 
 // const nestedArray = [
 //   { title: "pagi", list: ["test", "test", "test"] },
@@ -17,6 +17,7 @@ export default function Tugas() {
   const [group, setGroup] = useState(
     JSON.parse(localStorage.getItem("Group")) || []
   );
+  const [itemInput, setItemInput] = useState({ idx: null, value: "" });
 
   useEffect(() => {
     localStorage.setItem("Group", JSON.stringify(group));
@@ -38,12 +39,16 @@ export default function Tugas() {
   };
 
   const addItem = (e, idxGroup) => {
-    console.log("e", e.key);
     if (e.key === "Enter") {
       newGroup[idxGroup].list.push(e.target.value);
       setGroup(newGroup);
-      e.target.value = "";
+      setItemInput({ idx: null, value: "" });
     }
+  };
+  const addItemWhenMobile = (idxGroup) => {
+    newGroup[idxGroup].list.push(itemInput.value);
+    setGroup(newGroup);
+    setItemInput({ idx: null, value: "" });
   };
 
   const delItem = (idxGroup, idxItem) => {
@@ -86,7 +91,6 @@ export default function Tugas() {
   // Pada baris pertama, fungsi ini mengambil indeks dari grup asal item dengan menggunakan metode slice dan parseInt pada properti droppableId dari objek source. Kemudian, indeks dari grup tujuan item diperoleh dengan cara yang sama pada properti droppableId dari objek destination.
 
   // Secara keseluruhan, fungsi handleDragEnd ini digunakan untuk mengupdate state aplikasi ketika sebuah item berhasil di-drag dan drop, dengan mengubah posisi item di dalam grup yang berbeda.
-
   return (
     <div className="bg-[#181818] min-h-screen py-10 md:p-20">
       <h1 className="text-white text-3xl font-semibold text-center md:text-start">
@@ -101,6 +105,12 @@ export default function Tugas() {
                   {({ open }) => (
                     <>
                       <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => dellGroup(idx)}
+                          className="font-bold text-4xl text-[#0C86BD]"
+                        >
+                          <TiDeleteOutline />
+                        </button>
                         <input
                           type="text"
                           onKeyDown={(e) =>
@@ -182,20 +192,26 @@ export default function Tugas() {
                             <input
                               type="text"
                               onKeyDown={(e) => addItem(e, idx)}
+                              onChange={(e) => {
+                                setItemInput({
+                                  idx: idx,
+                                  value: e.target.value,
+                                });
+                              }}
+                              value={
+                                itemInput.idx === idx ? itemInput.value : ""
+                              }
+                              // onFocus={() => console.log("focus", idx)}
+                              // onBlur={() => console.log("blur", idx)}
+                              // value={e.target.index === idx ? itemInput : ""}
                               placeholder="add new todo Item"
-                              className=" grow border border-white text-white bg-transparent pl-3 md:py-2  rounded-full "
+                              className=" grow md:border border-white focus:outline-none  text-white bg-transparent pl-3 md:py-2  rounded-full "
                             />
                             <button
-                              onClick={() => dellGroup(idx)}
-                              className="font-semibold text-white md:hidden"
+                              className="text-white md:hidden"
+                              onClick={() => addItemWhenMobile(idx)}
                             >
-                              <FaTrash />
-                            </button>
-                            <button
-                              onClick={() => dellGroup(idx)}
-                              className="hidden md:block font-semibold text-white"
-                            >
-                              Delete Group
+                              save
                             </button>
                           </div>
                         </div>
@@ -207,20 +223,12 @@ export default function Tugas() {
             ))}
           </div>
         </DragDropContext>
-        {/* <div className="bg-gray-300 min-h-[15vh] flex justify-center mt-7"> */}
-
         <input
           type="text"
           onKeyDown={addGroup}
           placeholder="Add New Todo GROUP"
           className="border border-[#f47631] bg-transparent text-white h-[3rem] w-full px-5 mt-16"
         />
-        <div className="">
-          <input className="w-full" />
-          <button>del</button>
-        </div>
-
-        {/* </div> */}
       </div>
     </div>
   );
