@@ -189,7 +189,7 @@ export default function Tugas() {
                             )}
                           </Droppable>
                           <div className="border border-white rounded-xl">
-                            <div className="flex gap-3 justify-between px-6 py-3  rounded-full">
+                            <div className="flex gap-3 justify-between px-6 py-3 rounded-full">
                               <input
                                 type="text"
                                 onKeyDown={(e) => addItem(e, idx)}
@@ -206,7 +206,7 @@ export default function Tugas() {
                                 // onBlur={() => console.log("blur", idx)}
                                 // value={e.target.index === idx ? itemInput : ""}
                                 placeholder="add new todo Item"
-                                className=" grow md:border border-white focus:outline-none  text-white bg-transparent pl-3 md:py-2  rounded-full "
+                                className=" grow focus:outline-none  text-white bg-transparent pl-3 md:py-2  rounded-full "
                               />
                               <button
                                 className="text-white md:hidden"
@@ -229,7 +229,7 @@ export default function Tugas() {
           type="text"
           onKeyDown={addGroup}
           placeholder="Add New Todo GROUP"
-          className="border border-[#f47631] bg-transparent text-white h-[3rem] w-full px-5 mt-16 rounded-xl"
+          className="border border-[#f47631] bg-transparent text-white h-[3rem] md:h-[4.5rem] w-full px-5 mt-16 rounded-xl"
         />
       </div>
     </div>
